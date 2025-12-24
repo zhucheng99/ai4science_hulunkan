@@ -1,0 +1,41 @@
+task: detection
+
+evaluator:
+  type: CocoEvaluator
+  iou_types: ['bbox', ]
+
+num_classes: 4  # 您的4个类别
+remap_mscoco_category: False  # 重要：自定义数据集设为 False
+
+train_dataloader:
+  type: DataLoader
+  dataset:
+    type: CocoDetection
+    img_folder: /public/home/zhucheng/homework/cv/dataset/ai4sci_work/train/images
+    ann_file: /public/home/zhucheng/homework/cv_2/DEIMv2/annotations/train.json
+    return_masks: False
+    transforms:
+      type: Compose
+      ops: ~
+  shuffle: True
+  num_workers: 4
+  drop_last: True
+  collate_fn: 
+    type: BatchImageCollateFunction
+
+
+val_dataloader:
+  type: DataLoader
+  dataset: 
+    type: CocoDetection
+    img_folder: /public/home/zhucheng/homework/cv/dataset/ai4sci_work/valid/images
+    ann_file: /public/home/zhucheng/homework/cv_2/DEIMv2/annotations/valid.json
+    return_masks: False
+    transforms:
+      type: Compose
+      ops: ~
+  shuffle: False
+  num_workers: 4
+  drop_last: False
+  collate_fn:
+    type: BatchImageCollateFunction
